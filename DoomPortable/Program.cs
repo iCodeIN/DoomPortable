@@ -93,7 +93,7 @@ namespace NES
         {
             var handle = CreateWindow(200, 300, 640, 400, "Doom Portable");
             var screenBufHandle = GetWindowScreenBuf(handle);
-            ScreenBuf = Unsafe.As<IntPtr, Image>(ref screenBufHandle);
+            ScreenBuf = object.FromHandle<Image>(screenBufHandle);
 
             ReadAllBytes("DOOM1.WAD", out var size, out var data);
             new Doom(data, (long)size);
@@ -165,7 +165,7 @@ namespace NES
 
             var handler = (EventHandler<ConsoleKeyInfo>)PS2Keyboard_OnKeyChanged;
 
-            Program.BindOnKeyChangedHandler(handler);
+            Program.BindOnKeyChangedHandler(handler.GetHandle());
 
             doommain((byte*)ptr,length);
         }
